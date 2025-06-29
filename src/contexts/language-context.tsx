@@ -7,7 +7,7 @@ import { type Locale, defaultLocale, translations } from "@/lib/i18n"
 interface LanguageContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
-  t: (key: string) => string
+  t: (key: string) => string | readonly string[]
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -27,7 +27,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("locale", newLocale)
   }
 
-  const t = (key: string): string => {
+  const t = (key: string): string | readonly string[] => {
     return (
       translations[locale]?.[key as keyof typeof translations.en] ||
       translations.en[key as keyof typeof translations.en] ||

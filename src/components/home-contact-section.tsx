@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import ContactForm from "@/components/contact-form"
 import { MapPin, Phone, Mail } from "lucide-react"
@@ -107,4 +107,3 @@ export default function HomeContactSection() {
     </section>
   )
 }
-

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -18,14 +18,10 @@ interface FacilitiesCarouselProps {
 
 export default function FacilitiesCarousel({ data }: FacilitiesCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [width, setWidth] = useState(0)
+  // const [width, setWidth] = useState(0)
   const carousel = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (carousel.current) {
-      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-    }
-  }, [data])
+
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev === data.length - 1 ? 0 : prev + 1))

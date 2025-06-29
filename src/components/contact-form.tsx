@@ -10,17 +10,19 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
 import { motion } from "framer-motion"
+import { useLanguage } from "@/contexts/language-context"
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().regex(/^[0-9]{10}$/, "Phone number must be 10 digits"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z.string().regex(/^[0-9]{10}$/, { message: "Phone number must be 10 digits" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
 })
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const { t } = useLanguage()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,7 +51,7 @@ export default function ContactForm() {
       y: 0,
       opacity: 1,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
       },
     },
@@ -76,8 +78,8 @@ export default function ContactForm() {
           <Send className="h-6 w-6 text-primary" />
         </div>
         <div>
-          <h3 className="font-semibold text-lg">Send us a Message</h3>
-          <p className="text-sm text-muted-foreground">We'll get back to you as soon as possible</p>
+          <h3 className="font-semibold text-lg">{t("contactFormTitle") as string}</h3>
+          <p className="text-sm text-muted-foreground">{t("contactFormDescription") as string}</p>
         </div>
       </div>
 
@@ -91,10 +93,10 @@ export default function ContactForm() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>{t("contactFormNameLabel") as string}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter your full name"
+                          placeholder={t("contactFormNamePlaceholder") as string}
                           className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                           {...field}
                         />
@@ -111,11 +113,11 @@ export default function ContactForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("contactFormEmailLabel") as string}</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="Enter your email address"
+                          placeholder={t("contactFormEmailPlaceholder") as string}
                           className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                           {...field}
                         />
@@ -133,10 +135,10 @@ export default function ContactForm() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>{t("contactFormPhoneLabel") as string}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter your 10-digit phone number"
+                        placeholder={t("contactFormPhonePlaceholder") as string}
                         className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                         {...field}
                       />
@@ -153,10 +155,10 @@ export default function ContactForm() {
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Message</FormLabel>
+                    <FormLabel>{t("contactFormMessageLabel") as string}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Enter your message"
+                        placeholder={t("contactFormMessagePlaceholder") as string}
                         className="bg-muted/30 border-muted focus:border-primary rounded-lg min-h-32 resize-none"
                         {...field}
                       />
@@ -176,19 +178,19 @@ export default function ContactForm() {
                 {isSubmitting ? (
                   <>
                     <div className="h-4 w-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
-                    Sending...
+                    {t("contactFormSending") as string}
                   </>
                 ) : isSuccess ? (
                   <>
                     <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Sent!
+                    {t("contactFormSent") as string}
                   </>
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    Send Message
+                    {t("contactFormSendMessage") as string}
                   </>
                 )}
               </Button>

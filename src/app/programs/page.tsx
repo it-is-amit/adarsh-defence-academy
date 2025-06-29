@@ -1,7 +1,56 @@
-import { programsData, coreValuesData } from "@/data/programs"
+"use client"
+
 import Image from "next/image"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function ProgramsPage() {
+  const { t } = useLanguage()
+
+  // Program data using translations
+  const programsData = [
+    {
+      title: t("programsDefenceTrainingNdaTitle") as string,
+      description: t("programsDefenceTrainingNdaDescription") as string,
+      image: "https://placehold.co/500x300/png",
+      learningPoints: t("programsDefenceTrainingNdaLearningPoints") as readonly string[],
+    },
+    {
+      title: t("programsSportsCoachingTitle") as string,
+      description: t("programsSportsCoachingDescription") as string,
+      image: "https://placehold.co/500x300/png",
+      learningPoints: t("programsSportsCoachingLearningPoints") as readonly string[],
+    },
+  ]
+
+  // Core values data using translations
+  const coreValuesData = [
+    {
+      title: t("programsCoreValuesIntegrityTitle") as string,
+      description: t("programsCoreValuesIntegrityDescription") as string,
+      image: "https://placehold.co/150x150/png",
+    },
+    {
+      title: t("programsCoreValuesExcellenceTitle") as string,
+      description: t("programsCoreValuesExcellenceDescription") as string,
+      image: "https://placehold.co/150x150/png",
+    },
+    {
+      title: t("programsCoreValuesRespectTitle") as string,
+      description: t("programsCoreValuesRespectDescription") as string,
+      image: "https://placehold.co/150x150/png",
+    },
+    {
+      title: t("programsCoreValuesTeamworkTitle") as string,
+      description: t("programsCoreValuesTeamworkDescription") as string,
+      image: "https://placehold.co/150x150/png",
+    },
+    {
+      title: t("programsCoreValuesInnovationTitle") as string,
+      description: t("programsCoreValuesInnovationDescription") as string,
+      image: "https://placehold.co/150x150/png",
+    },
+  ]
+
   return (
     <main className="min-h-screen">
       {/* Breadcrumb */}
@@ -15,10 +64,8 @@ export default function ProgramsPage() {
       <section className="py-16 bg-background container mx-auto">
         <div className="container px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Programs Section</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive training programs designed for excellence in defence and sports
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("programsPageTitle")}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("programsPageSubtitle")}</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -41,7 +88,7 @@ export default function ProgramsPage() {
                   <p className="text-muted-foreground leading-relaxed">{program.description}</p>
 
                   <div className="space-y-4">
-                    <h4 className="font-semibold text-lg">What you'll learn:</h4>
+                    <h4 className="font-semibold text-lg">{t("programsWhatYouLearnTitle")}</h4>
                     <ul className="space-y-2">
                       {program.learningPoints.map((point, pointIndex) => (
                         <li key={pointIndex} className="flex items-start gap-3">
@@ -54,7 +101,7 @@ export default function ProgramsPage() {
 
                   <div className="pt-4">
                     <button className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
-                      Learn More
+                      {t("programsGetDetails")}
                     </button>
                   </div>
                 </div>
@@ -68,10 +115,8 @@ export default function ProgramsPage() {
       <section className="py-16 bg-muted/30 container mx-auto">
         <div className="container px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Core Values</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              The fundamental principles that guide our training methodology
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("programsProgramFeaturesTitle")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("programsPageSubtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">

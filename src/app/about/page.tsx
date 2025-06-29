@@ -1,8 +1,12 @@
+"use client"
+
 import Image from "next/image"
-import { aboutPageData } from "@/data/about-page"
-import { Eye, TargetIcon } from "lucide-react"
+import { Eye, TargetIcon } from 'lucide-react'
+import { useLanguage } from "@/contexts/language-context"
 
 export default function AboutPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -17,8 +21,8 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white space-y-4 max-w-4xl px-4">
-            <h1 className="text-4xl md:text-6xl font-bold">{aboutPageData.hero.title}</h1>
-            <p className="text-lg md:text-xl text-gray-200">{aboutPageData.hero.subtitle}</p>
+            <h1 className="text-4xl md:text-6xl font-bold">{t("heroTitle")}</h1>
+            <p className="text-lg md:text-xl text-gray-200">{t("heroSubtitle")}</p>
           </div>
         </div>
       </section>
@@ -27,8 +31,8 @@ export default function AboutPage() {
       <section className="py-16 bg-background container mx-auto">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold">{aboutPageData.welcome.title}</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">{aboutPageData.welcome.description}</p>
+            <h2 className="text-3xl md:text-4xl font-bold">{t("welcomeTitle")}</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">{t("welcomeDescription")}</p>
           </div>
         </div>
       </section>
@@ -38,13 +42,8 @@ export default function AboutPage() {
         <div className="container px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold">Our Story</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Adarsh Defence and Sports Academy was established in 2024, a passionate organisation with a vision to
-                create a platform where young aspirants can pursue their dreams in defence and sports. Our organisation
-                aimed to bridge the gap between talent and opportunity, providing comprehensive training and guidance to
-                help students achieve their goals.
-              </p>
+              <h2 className="text-3xl md:text-4xl font-bold">{t("ourStoryTitle")}</h2>
+              <p className="text-muted-foreground leading-relaxed">{t("ourStoryDescription")}</p>
             </div>
             <div className="relative h-[400px] rounded-xl overflow-hidden">
               <Image src="https://placehold.co/400x600/png" alt="Our Story" fill className="object-cover" />
@@ -57,38 +56,26 @@ export default function AboutPage() {
       <section className="py-16 bg-background container mx-auto">
         <div className="container px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Our Philosophy</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">{t("philosophyTitle")}</h2>
 
             <div className="space-y-8">
               <div className="bg-muted/30 p-8 rounded-xl shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Identifying and nurturing talent</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We recognize the unique strengths and abilities of each student and provide personalized attention to
-                  help them grow.
-                </p>
+                <h3 className="text-xl font-bold mb-4">{t("identifyingTalent")}</h3>
+                <p className="text-muted-foreground leading-relaxed">{t("identifyingTalentDesc")}</p>
               </div>
 
               <div className="bg-muted/30 p-8 rounded-xl shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Fostering a culture of excellence</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We strive for excellence in everything we do, from training and coaching to academics and character
-                  development.
-                </p>
+                <h3 className="text-xl font-bold mb-4">{t("fosteringExcellence")}</h3>
+                <p className="text-muted-foreground leading-relaxed">{t("fosteringExcellenceDesc")}</p>
               </div>
 
               <div className="bg-muted/30 p-8 rounded-xl shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Building character and values</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We instil essential life skills, values, and discipline in our students, preparing them for success
-                  beyond their chosen fields.
-                </p>
+                <h3 className="text-xl font-bold mb-4">{t("buildingCharacter")}</h3>
+                <p className="text-muted-foreground leading-relaxed">{t("buildingCharacterDesc")}</p>
               </div>
 
               <div className="bg-primary/10 p-8 rounded-xl shadow-sm">
-                <p className="text-lg font-medium text-center">
-                  If you're passionate about defence and sports, and eager to achieve excellence, join us at Adarsh
-                  Defence and Sports Academy. Together, let's shape the future of India's defence and sports landscape.
-                </p>
+                <p className="text-lg font-medium text-center">{t("joinUsMessage")}</p>
               </div>
             </div>
           </div>
@@ -103,16 +90,16 @@ export default function AboutPage() {
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                 <TargetIcon className="text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-4">{aboutPageData.sections[0].title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{aboutPageData.sections[0].description}</p>
+              <h3 className="text-xl font-bold mb-4">{t("missionTitle")}</h3>
+              <p className="text-muted-foreground leading-relaxed">{t("missionDescription")}</p>
             </div>
 
             <div className="bg-background p-8 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-2">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                 <Eye className="text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-4">{aboutPageData.sections[1].title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{aboutPageData.sections[1].description}</p>
+              <h3 className="text-xl font-bold mb-4">{t("visionTitle")}</h3>
+              <p className="text-muted-foreground leading-relaxed">{t("visionDescription")}</p>
             </div>
           </div>
         </div>

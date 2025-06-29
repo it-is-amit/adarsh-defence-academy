@@ -1,6 +1,6 @@
 "use client"
 
-import { CarouselItem } from "@/components/ui/carousel"
+import { CarouselItem, CarouselApi } from "@/components/ui/carousel"
 
 import * as React from "react"
 import Image from "next/image"
@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent } from "@/components/ui/carousel"
 import { cn } from "@/lib/utils"
-import { useLanguage } from "@/contexts/language-context"
+// import { useLanguage } from "@/contexts/language-context"
 
 interface FeaturedCarouselItem {
   title: string
@@ -22,10 +22,10 @@ interface FeaturedCarouselProps {
 }
 
 export default function FeaturedCarousel({ items, className }: FeaturedCarouselProps) {
-  const [api, setApi] = React.useState<any>(null)
+  const [api, setApi] = React.useState<CarouselApi | null>(null)
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)
-  const { t } = useLanguage()
+  // const { t } = useLanguage()
 
   React.useEffect(() => {
     if (!api) return

@@ -1,8 +1,25 @@
+"use client";
+
 import Link from "next/link"
 import { Phone, MapPin, Mail, Facebook, Instagram, Twitter, Youtube } from "lucide-react"
-import { footerData } from "@/data/footer"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function Footer() {
+  const { t } = useLanguage()
+
+  const quickLinks = [
+    { label: t("footerHome"), href: "/" },
+    { label: t("footerAboutUs"), href: "/about" },
+    { label: t("footerFacilities"), href: "/facilities" },
+    { label: t("footerContactUs"), href: "/contact" },
+  ]
+
+  const programs = [
+    { label: t("footerDefenceTraining"), href: "/programs#defence" },
+    { label: t("footerSportsCoaching"), href: "/programs#sports" },
+    { label: t("footerAcademicSupport"), href: "/programs#academic" },
+  ]
+
   return (
     <footer className="bg-slate-900 text-white">
       <div className="container px-4 py-12 mx-auto">
@@ -14,8 +31,8 @@ export default function Footer() {
                 LOGO
               </div>
             </div>
-            <h3 className="font-bold text-white">{footerData.academyName}</h3>
-            <p className="text-sm text-slate-300 leading-relaxed">{footerData.description}</p>
+            <h3 className="font-bold text-white">{t("footerAcademyName")}</h3>
+            <p className="text-sm text-slate-300 leading-relaxed">{t("footerDescription")}</p>
 
             <div className="flex space-x-3 pt-4">
               <Link
@@ -47,9 +64,9 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">Quick Links</h4>
+            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">{t("footerQuickLinks")}</h4>
             <ul className="space-y-2">
-              {footerData.quickLinks.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -65,9 +82,9 @@ export default function Footer() {
 
           {/* Programs */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">Programs</h4>
+            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">{t("footerPrograms")}</h4>
             <ul className="space-y-2">
-              {footerData.programs.map((program) => (
+              {programs.map((program) => (
                 <li key={program.href}>
                   <Link
                     href={program.href}
@@ -83,19 +100,19 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">Contact</h4>
+            <h4 className="font-semibold text-lg border-b border-slate-700 pb-2">{t("footerContact")}</h4>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-slate-300">{footerData.contact.address}</span>
+                <span className="text-sm text-slate-300">{t("footerAddress")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                <span className="text-sm text-slate-300">{footerData.contact.phone}</span>
+                <span className="text-sm text-slate-300">{t("footerPhone")}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                <span className="text-sm text-slate-300">{footerData.contact.email}</span>
+                <span className="text-sm text-slate-300">{t("footerEmail")}</span>
               </div>
             </div>
           </div>
@@ -103,7 +120,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 mt-8 pt-8 text-center">
           <p className="text-sm text-slate-400">
-            © {new Date().getFullYear()} {footerData.academyName}. All rights reserved.
+            © {new Date().getFullYear()} {t("footerAcademyName")}. {t("footerCopyright")}
           </p>
         </div>
       </div>

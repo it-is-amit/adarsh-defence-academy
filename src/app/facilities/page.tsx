@@ -4,11 +4,13 @@ import { useEffect, useRef } from "react"
 import FeaturedCarousel from "@/components/featured-carousel"
 import { facilitiesData, teamData, infrastructureData } from "@/data/facilities"
 import { motion } from "framer-motion"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function FacilitiesPage() {
   const facilitiesRef = useRef<HTMLElement>(null)
   const infrastructureRef = useRef<HTMLElement>(null)
   const teamRef = useRef<HTMLElement>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const hash = window.location.hash
@@ -28,7 +30,7 @@ export default function FacilitiesPage() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       },
     },
   }
@@ -38,7 +40,9 @@ export default function FacilitiesPage() {
       {/* Breadcrumb */}
       <div className="bg-muted/30 py-4 container mx-auto">
         <div className="container px-4">
-          <p className="text-sm text-muted-foreground">Home {">"} Facilities</p>
+          <p className="text-sm text-muted-foreground">
+            Home {">"} {t("facilitiesPageTitle")}
+          </p>
         </div>
       </div>
 
@@ -54,10 +58,8 @@ export default function FacilitiesPage() {
       >
         <div className="container px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Facilities</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              State-of-the-art facilities designed to nurture excellence in defence and sports training
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("facilitiesPageTitle")}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("facilitiesPageSubtitle")}</p>
           </div>
           <FeaturedCarousel items={facilitiesData} />
         </div>
@@ -75,10 +77,8 @@ export default function FacilitiesPage() {
       >
         <div className="container px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Infrastructure</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Modern infrastructure supporting comprehensive training and development
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("facilitiesInfrastructureTitle")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("facilitiesInfrastructureSubtitle")}</p>
           </div>
           <FeaturedCarousel items={infrastructureData} />
         </div>
@@ -96,10 +96,8 @@ export default function FacilitiesPage() {
       >
         <div className="container px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Team</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experienced professionals dedicated to shaping future leaders
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("facilitiesTeamTitle")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("facilitiesTeamSubtitle")}</p>
           </div>
           <FeaturedCarousel items={teamData} />
         </div>

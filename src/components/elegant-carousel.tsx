@@ -22,7 +22,7 @@ interface ElegantCarouselProps {
   interval?: number
 }
 
-export default function ElegantCarousel({ items, className, autoPlay = true, interval = 5000 }: ElegantCarouselProps) {
+export default function ElegantCarousel({ items, className, autoPlay = true}: ElegantCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
@@ -104,7 +104,7 @@ export default function ElegantCarousel({ items, className, autoPlay = true, int
       x: 0,
       opacity: 1,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.4 },
       },
     },
@@ -112,7 +112,7 @@ export default function ElegantCarousel({ items, className, autoPlay = true, int
       x: direction > 0 ? "-100%" : "100%",
       opacity: 0,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.4 },
       },
     }),

@@ -30,8 +30,8 @@ export default function Navbar() {
             LOGO
           </div>
           <div className="hidden sm:block">
-            <div className="text-sm font-bold">Adarsh Defence and Sports</div>
-            <div className="text-xs text-muted-foreground">Academy Jodhpur</div>
+            <div className="text-sm font-bold">{t("adarshDefence")}</div>
+            <div className="text-xs text-muted-foreground">{t("academyJodhpur")}</div>
           </div>
         </Link>
 
@@ -71,12 +71,15 @@ export default function Navbar() {
                       </NavigationMenuContent>
                     </>
                   ) : (
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink className="group flex flex-row h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        href={item.href}
+                        className="group flex flex-row h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                      >
                         <item.icon className="mr-1 h-4 w-4" />
                         {t(item.labelKey)}
-                      </NavigationMenuLink>
-                    </Link>
+                      </Link>
+                    </NavigationMenuLink>
                   )}
                 </NavigationMenuItem>
               ))}
@@ -96,7 +99,10 @@ export default function Navbar() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0 bg-background border-l border-border rounded-l-2xl shadow-2xl">
+            <SheetContent
+              side="right"
+              className="w-[300px] sm:w-[400px] p-0 bg-background border-l border-border rounded-l-2xl shadow-2xl"
+            >
               <div className="flex flex-col space-y-4 mt-8 px-4 pb-6">
                 {navigationData.map((item) => (
                   <div key={item.href} className="">

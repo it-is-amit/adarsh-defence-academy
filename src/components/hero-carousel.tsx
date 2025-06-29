@@ -56,7 +56,7 @@ export default function HeroCarousel() {
         >
           <Image
             src={slide.image || "/placeholder.svg"}
-            alt={t(slide.titleKey)}
+            alt={t(slide.titleKey) as string}
             fill
             className="object-cover"
             priority={index === 0}

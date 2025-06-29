@@ -1,17 +1,97 @@
 "use client"
 
-import { achievementsData } from "@/data/achievements"
 import Image from "next/image"
 import { Trophy, Award, Medal, Star } from "lucide-react"
 import { motion } from "framer-motion"
+import { useLanguage } from "@/contexts/language-context"
 
 export default function AchievementsPage() {
+  const { t } = useLanguage()
+
+  // Alumni data using translations
+  const alumniData = [
+    {
+      name: t("alumniRajeshKumarName") as string,
+      achievement: t("alumniRajeshKumarAchievement") as string,
+      brief: t("alumniRajeshKumarBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      name: t("alumniPriyaSharmaName") as string,
+      achievement: t("alumniPriyaSharmaAchievement") as string,
+      brief: t("alumniPriyaSharmaBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      name: t("alumniArjunSinghName") as string,
+      achievement: t("alumniArjunSinghAchievement") as string,
+      brief: t("alumniArjunSinghBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      name: t("alumniMeeraPatelName") as string,
+      achievement: t("alumniMeeraPatelAchievement") as string,
+      brief: t("alumniMeeraPatelBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+  ]
+
+  // Awards data using translations
+  const awardsData = [
+    {
+      title: t("awardsBestDefenceAcademyTitle") as string,
+      description: t("awardsBestDefenceAcademyDescription") as string,
+      image: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("awardsSportsExcellenceTitle") as string,
+      description: t("awardsSportsExcellenceDescription") as string,
+      image: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("awardsEducationalInnovationTitle") as string,
+      description: t("awardsEducationalInnovationDescription") as string,
+      image: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("awardsCommunityServiceTitle") as string,
+      description: t("awardsCommunityServiceDescription") as string,
+      image: "https://placehold.co/200x200/png",
+    },
+  ]
+
+  // Notable achievements data using translations
+  const notableAchievementsData = [
+    {
+      title: t("notableCricketChampionshipTitle") as string,
+      brief: t("notableCricketChampionshipBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("notableNdaSelectionTitle") as string,
+      brief: t("notableNdaSelectionBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("notableAthleticsMedalTitle") as string,
+      brief: t("notableAthleticsMedalBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+    {
+      title: t("notableDefenceExcellenceTitle") as string,
+      brief: t("notableDefenceExcellenceBrief") as string,
+      photo: "https://placehold.co/200x200/png",
+    },
+  ]
+
   return (
     <main className="min-h-screen">
       {/* Breadcrumb */}
       <div className="bg-muted/30 py-4 container mx-auto">
         <div className="container px-4">
-          <p className="text-sm text-muted-foreground">Home {">"} Achievement</p>
+          <p className="text-sm text-muted-foreground">
+            {t("breadcrumbHome")} {">"} {t("breadcrumbAchievement")}
+          </p>
         </div>
       </div>
 
@@ -23,11 +103,9 @@ export default function AchievementsPage() {
               <Trophy className="h-48 w-48 text-amber-500" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
-              Our Achievements
+              {t("heroTitle")}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Celebrating excellence and success stories that inspire future generations
-            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("heroSubtitle")}</p>
           </div>
         </div>
       </section>
@@ -41,15 +119,13 @@ export default function AchievementsPage() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
               <Trophy className="h-8 w-8 text-amber-500" />
-              Success Stories of Alumni
+              {t("successStoriesTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our proud alumni who have made their mark in defence and sports
-            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("successStoriesSubtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {achievementsData.alumni.map((alumnus, index) => (
+            {alumniData.map((alumnus, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -92,15 +168,13 @@ export default function AchievementsPage() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
               <Award className="h-8 w-8 text-amber-500" />
-              Awards and Recognition
+              {t("awardsTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Recognition and accolades that validate our commitment to excellence
-            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("awardsSubtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {achievementsData.awards.map((award, index) => (
+            {awardsData.map((award, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -139,15 +213,13 @@ export default function AchievementsPage() {
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
               <Medal className="h-8 w-8 text-amber-500" />
-              Notable Achievements in Sports and Defence Exams
+              {t("notableAchievementsTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Outstanding performances that showcase our training excellence
-            </p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("notableAchievementsSubtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {achievementsData.notableAchievements.map((achievement, index) => (
+            {notableAchievementsData.map((achievement, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}

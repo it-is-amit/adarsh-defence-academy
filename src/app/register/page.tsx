@@ -9,20 +9,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { motion } from "framer-motion"
 import { UserPlus, Calendar, BookOpen, MapPin, Phone, User } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  fatherName: z.string().min(2, "Father's name must be at least 2 characters"),
-  dob: z.string().min(1, "Date of birth is required"),
-  classStream: z.string().min(1, "Class/Stream is required"),
-  district: z.string().min(2, "District must be at least 2 characters"),
-  city: z.string().min(2, "City must be at least 2 characters"),
-  phoneNumber: z.string().regex(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  fatherName: z.string().min(2, { message: "Father's name must be at least 2 characters" }),
+  dob: z.string().min(1, { message: "Date of birth is required" }),
+  classStream: z.string().min(1, { message: "Class/Stream is required" }),
+  district: z.string().min(2, { message: "District must be at least 2 characters" }),
+  city: z.string().min(2, { message: "City must be at least 2 characters" }),
+  phoneNumber: z.string().regex(/^[0-9]{10}$/, { message: "Phone number must be 10 digits" }),
 })
 
 export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const { t } = useLanguage()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -82,11 +84,8 @@ export default function RegisterPage() {
       <div className="container mx-auto py-16">
         <motion.div initial="hidden" animate="visible" variants={containerVariants} className="max-w-3xl mx-auto">
           <motion.div variants={itemVariants} className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Join Our Academy</h1>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Fill out the form below to register your interest in our programs. Our team will contact you with further
-              details.
-            </p>
+            <h1 className="text-4xl font-bold mb-4">{t("pageTitle")}</h1>
+            <p className="text-muted-foreground max-w-xl mx-auto">{t("pageSubtitle")}</p>
           </motion.div>
 
           <motion.div variants={itemVariants} className="bg-card rounded-3xl shadow-lg overflow-hidden">
@@ -107,11 +106,11 @@ export default function RegisterPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <User className="h-4 w-4" /> Full Name
+                              <User className="h-4 w-4" /> {t("fullName")}
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter your full name"
+                                placeholder={t("fullNamePlaceholder") as string}
                                 className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                                 {...field}
                               />
@@ -123,17 +122,17 @@ export default function RegisterPage() {
                     </motion.div>
 
                     <motion.div variants={itemVariants}>
-                      <FormField
+                      <FormField  
                         control={form.control}
                         name="fatherName"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <User className="h-4 w-4" /> Father's Name
+                              <User className="h-4 w-4" /> {t("fatherName")}
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter father's name"
+                                placeholder={t("fatherNamePlaceholder") as string}
                                 className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                                 {...field}
                               />
@@ -151,7 +150,7 @@ export default function RegisterPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4" /> Date of Birth
+                              <Calendar className="h-4 w-4" /> {t("dateOfBirth")}
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -173,11 +172,11 @@ export default function RegisterPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <BookOpen className="h-4 w-4" /> Class/Stream
+                              <BookOpen className="h-4 w-4" /> {t("currentClass")}
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter class and stream"
+                                placeholder={t("currentClassPlaceholder") as string}
                                 className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                                 {...field}
                               />
@@ -195,11 +194,11 @@ export default function RegisterPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" /> District
+                              <MapPin className="h-4 w-4" /> {t("district")}
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter your district"
+                                placeholder={t("districtPlaceholder") as string}
                                 className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                                 {...field}
                               />
@@ -217,33 +216,11 @@ export default function RegisterPage() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4" /> City
+                              <MapPin className="h-4 w-4" /> {t("city")}
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter your city"
-                                className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </motion.div>
-
-                    <motion.div variants={itemVariants}>
-                      <FormField
-                        control={form.control}
-                        name="phoneNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="flex items-center gap-2">
-                              <Phone className="h-4 w-4" /> Phone Number
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter 10-digit phone number"
+                                placeholder={t("cityPlaceholder") as string}
                                 className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
                                 {...field}
                               />
@@ -255,26 +232,51 @@ export default function RegisterPage() {
                     </motion.div>
                   </div>
 
-                  <motion.div variants={itemVariants} className="pt-4 flex justify-center">
+                  <motion.div variants={itemVariants}>
+                    <FormField
+                      control={form.control}
+                      name="phoneNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Phone className="h-4 w-4" /> {t("phone")}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder={t("phonePlaceholder") as string}
+                              className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div variants={itemVariants} className="flex justify-center">
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-6 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition-all"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg flex items-center gap-2 cursor-pointer"
                     >
                       {isSubmitting ? (
-                        <div className="flex items-center gap-2">
-                          <div className="h-5 w-5 border-2 border-t-transparent border-white rounded-full animate-spin" />
-                          Processing...
-                        </div>
+                        <>
+                          <div className="h-4 w-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                          {t("submitting")}
+                        </>
                       ) : isSuccess ? (
-                        <div className="flex items-center gap-2">
-                          <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <>
+                          <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
-                          Inquiry Sent!
-                        </div>
+                          {t("registrationSubmitted")}
+                        </>
                       ) : (
-                        "Send Inquiry"
+                        <>
+                          <UserPlus className="h-4 w-4" />
+                          {t("submitRegistration")}
+                        </>
                       )}
                     </Button>
                   </motion.div>
