@@ -46,10 +46,10 @@ export default function FeaturedCarousel({ items, className }: FeaturedCarouselP
 
   // Pause autoplay on mouse enter, resume on mouse leave
   const handleMouseEnter = () => {
-    autoplay.current && autoplay.current.stop()
+    if (autoplay.current) autoplay.current.stop()
   }
   const handleMouseLeave = () => {
-    autoplay.current && autoplay.current.play()
+    if (autoplay.current) autoplay.current.play()
   }
 
   return (

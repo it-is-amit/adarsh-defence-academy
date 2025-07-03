@@ -38,8 +38,8 @@ export const aboutTranslations = {
   },
   hi: {
     // Hero Section
-    heroTitle: "हमारी अकादमी के बारे में",
-    heroSubtitle: "रक्षा और खेल प्रशिक्षण में उत्कृष्टता के माध्यम से भविष्य के नेताओं को आकार देना",
+    aboutHeroTitle: "हमारी अकादमी के बारे में",
+    aboutHeroSubtitle: "रक्षा और खेल प्रशिक्षण में उत्कृष्टता के माध्यम से भविष्य के नेताओं को आकार देना",
 
     // Welcome Section
     welcomeTitle: "आदर्श रक्षा और खेल अकादमी में आपका स्वागत है",
