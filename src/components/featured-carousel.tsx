@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Carousel, CarouselContent } from "@/components/ui/carousel"
 import { cn } from "@/lib/utils"
+import Autoplay from "embla-carousel-autoplay"
 // import { useLanguage } from "@/contexts/language-context"
 
 interface FeaturedCarouselItem {
@@ -27,6 +28,11 @@ export default function FeaturedCarousel({ items, className }: FeaturedCarouselP
   const [count, setCount] = React.useState(0)
   // const { t } = useLanguage()
 
+  // Create autoplay plugin instance
+  const autoplay = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: false })
+  )
+
   React.useEffect(() => {
     if (!api) return
 
@@ -38,8 +44,16 @@ export default function FeaturedCarousel({ items, className }: FeaturedCarouselP
     })
   }, [api])
 
+  // Pause autoplay on mouse enter, resume on mouse leave
+  const handleMouseEnter = () => {
+    autoplay.current && autoplay.current.stop()
+  }
+  const handleMouseLeave = () => {
+    autoplay.current && autoplay.current.play()
+  }
+
   return (
-    <div className={cn("relative px-4 py-10", className)}>
+    <div className={cn("relative px-4 py-10", className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Carousel
         setApi={setApi}
         className="w-full"
@@ -47,6 +61,7 @@ export default function FeaturedCarousel({ items, className }: FeaturedCarouselP
           align: "center",
           loop: true,
         }}
+        plugins={[autoplay.current]}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {items.map((item, index) => (

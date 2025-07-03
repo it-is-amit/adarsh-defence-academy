@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { Phone, MapPin, Mail, Facebook, Instagram, Twitter, Youtube } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
+import Image from "next/image";
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -21,15 +22,13 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-slate-900 dark:bg-black text-white">
       <div className="container px-4 py-12 mx-auto">
         <div className="grid md:grid-cols-4 gap-8">
           {/* Logo and Description */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="h-10 w-20 bg-primary rounded flex items-center justify-center text-sm font-bold text-primary-foreground">
-                LOGO
-              </div>
+              <Image src="/assets/logo.png" alt="Logo" width={32} height={48} />
             </div>
             <h3 className="font-bold text-white">{t("footerAcademyName")}</h3>
             <p className="text-sm text-slate-300 leading-relaxed">{t("footerDescription")}</p>

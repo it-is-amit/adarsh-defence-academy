@@ -11,13 +11,13 @@ export default function ProgramsPage() {
     {
       title: t("programsDefenceTrainingNdaTitle") as string,
       description: t("programsDefenceTrainingNdaDescription") as string,
-      image: "https://placehold.co/500x300/png",
+      image: "/assets/hero/hero3.png",
       learningPoints: t("programsDefenceTrainingNdaLearningPoints") as readonly string[],
     },
     {
       title: t("programsSportsCoachingTitle") as string,
       description: t("programsSportsCoachingDescription") as string,
-      image: "https://placehold.co/500x300/png",
+      image: "/assets/hero/hero1.png",
       learningPoints: t("programsSportsCoachingLearningPoints") as readonly string[],
     },
   ]
@@ -27,27 +27,27 @@ export default function ProgramsPage() {
     {
       title: t("programsCoreValuesIntegrityTitle") as string,
       description: t("programsCoreValuesIntegrityDescription") as string,
-      image: "https://placehold.co/150x150/png",
+      image: "/assets/core-values/integrity.png",
     },
     {
       title: t("programsCoreValuesExcellenceTitle") as string,
       description: t("programsCoreValuesExcellenceDescription") as string,
-      image: "https://placehold.co/150x150/png",
+      image: "/assets/core-values/excellence.png",
     },
     {
       title: t("programsCoreValuesRespectTitle") as string,
       description: t("programsCoreValuesRespectDescription") as string,
-      image: "https://placehold.co/150x150/png",
+      image: "/assets/core-values/respect.png",
     },
     {
       title: t("programsCoreValuesTeamworkTitle") as string,
       description: t("programsCoreValuesTeamworkDescription") as string,
-      image: "https://placehold.co/150x150/png",
+      image: "/assets/core-values/teamwork.png",
     },
     {
       title: t("programsCoreValuesInnovationTitle") as string,
       description: t("programsCoreValuesInnovationDescription") as string,
-      image: "https://placehold.co/150x150/png",
+      image: "/assets/core-values/innovation.png",
     },
   ]
 

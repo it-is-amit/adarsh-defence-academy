@@ -5,36 +5,44 @@ import { useLanguage } from "@/contexts/language-context"
 
 const galleryImages = [
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery1.png",
     alt: "Training Ground",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery2.png",
     alt: "Classroom",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery3.png",
     alt: "Sports Facility",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery4.png",
     alt: "Students Training",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery5.png",
     alt: "Achievement Ceremony",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery6.png",
     alt: "Team Building",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery7.png",
     alt: "Physical Training",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
   {
-    src: "https://placehold.co/300x300/png",
+    src: "/assets/gallery/gallery8.png",
     alt: "Academic Session",
+    blurHash:"LaG+qDxVb{IpA#s,bcW=S*M|i]xt"
   },
 ]
 
@@ -58,6 +66,8 @@ export default function ImageGallery() {
               <Image
                 src={image.src || "/placeholder.svg"}
                 alt={image.alt}
+                placeholder="blur"
+                blurDataURL={image.blurHash}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />

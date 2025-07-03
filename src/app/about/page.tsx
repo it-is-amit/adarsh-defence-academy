@@ -12,7 +12,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] overflow-hidden">
         <Image
-          src="https://placehold.co/1200x600/png?text=."
+          src="/assets/hero/hero2.png"
           alt="About Adarsh Defence and Sports Academy"
           fill
           className="object-cover"
@@ -21,8 +21,8 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white space-y-4 max-w-4xl px-4">
-            <h1 className="text-4xl md:text-6xl font-bold">{t("heroTitle")}</h1>
-            <p className="text-lg md:text-xl text-gray-200">{t("heroSubtitle")}</p>
+            <h1 className="text-4xl md:text-6xl font-bold">{t("aboutHeroTitle")}</h1>
+            <p className="text-lg md:text-xl text-gray-200">{t("aboutHeroSubtitle")}</p>
           </div>
         </div>
       </section>
@@ -46,7 +46,7 @@ export default function AboutPage() {
               <p className="text-muted-foreground leading-relaxed">{t("ourStoryDescription")}</p>
             </div>
             <div className="relative h-[400px] rounded-xl overflow-hidden">
-              <Image src="https://placehold.co/400x600/png" alt="Our Story" fill className="object-cover" />
+              <Image src="/assets/our-story.png" alt="Our Story" fill className="object-cover" />
             </div>
           </div>
         </div>

@@ -11,19 +11,19 @@ const heroSlides = [
     titleKey: "heroTitle1",
     subtitleKey: "heroSubtitle1",
     buttonTextKey: "explore",
-    image: "https://placehold.co/1200x600/png",
+    image: "/assets/hero/hero1.png",
   },
   {
     titleKey: "heroTitle2",
     subtitleKey: "heroSubtitle2",
     buttonTextKey: "learnMore",
-    image: "https://placehold.co/1200x600/png",
+    image: "/assets/hero/hero3.png",
   },
   {
     titleKey: "heroTitle3",
     subtitleKey: "heroSubtitle3",
     buttonTextKey: "joinNow",
-    image: "https://placehold.co/1200x600/png",
+    image: "/assets/hero/hero2.png",
   },
 ]
 

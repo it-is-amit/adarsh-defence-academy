@@ -17,6 +17,7 @@ import { navigationData } from "@/data/navigation"
 import ThemeToggle from "@/components/theme-toggle"
 import LanguageToggle from "@/components/language-toggle"
 import { useLanguage } from "@/contexts/language-context"
+import Image from "next/image"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -26,9 +27,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b backdrop-blur bg-muted/40">
       <div className="container flex h-16 items-center justify-between mx-auto">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="h-8 w-16 bg-primary rounded flex items-center justify-center text-sm font-bold text-primary-foreground">
-            LOGO
-          </div>
+          <Image src="/assets/logo.png" alt="Logo" width={32} height={48} />
           <div className="hidden sm:block">
             <div className="text-sm font-bold">{t("adarshDefence")}</div>
             <div className="text-xs text-muted-foreground">{t("academyJodhpur")}</div>

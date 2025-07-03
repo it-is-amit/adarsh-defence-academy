@@ -1,8 +1,8 @@
 export const aboutTranslations = {
   en: {
     // Hero Section
-    heroTitle: "About Our Academy",
-    heroSubtitle: "Shaping future leaders through excellence in defence and sports training",
+    aboutHeroTitle: "About Our Academy",
+    aboutHeroSubtitle: "Shaping future leaders through excellence in defence and sports training",
 
     // Welcome Section
     welcomeTitle: "Welcome to Adarsh Defence and Sports Academy",
