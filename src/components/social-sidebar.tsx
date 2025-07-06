@@ -1,13 +1,13 @@
 "use client"
 
-import { Instagram, MessageCircle, Facebook, Send } from "lucide-react"
+import { Instagram, Facebook, Youtube, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-const socialLinks = [
-  { icon: Instagram, href: "#", color: "bg-gradient-to-br from-purple-600 to-pink-500" },
-  { icon: MessageCircle, href: "#", color: "bg-green-500" },
-  { icon: Facebook, href: "#", color: "bg-blue-600" },
-  { icon: Send, href: "#", color: "bg-blue-400" },
+export const socialLinks = [
+  { icon: Instagram, href: "https://www.instagram.com/adsa_jodhpur/", color: "bg-gradient-to-br from-purple-600 to-pink-500" },
+  { icon: Phone, href: "tel:+916376784539", color: "bg-green-500" },
+  { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61572417500871&ref=_ig_profile_ac", color: "bg-blue-600" },
+  { icon: Youtube, href: "https://www.youtube.com/@ADSA_lalsagar", color: "bg-red-500" },
 ]
 
 export default function SocialSidebar() {
@@ -17,7 +17,7 @@ export default function SocialSidebar() {
         <Button
           key={index}
           size="icon"
-          className={`h-12 w-12 rounded-full ${social.color} hover:scale-110 transition-transform duration-200 shadow-lg`}
+          className={`h-12 w-12 rounded-full ${social.color} hover:scale-110 transition-all duration-200 shadow-lg`}
           asChild
         >
           <a href={social.href} target="_blank" rel="noopener noreferrer">

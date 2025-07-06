@@ -1,16 +1,30 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
+import { toast } from "sonner"
+
+// EmailJS types
+interface EmailJS {
+  init: (publicKey: string) => void
+  sendForm: (
+    serviceId: string,
+    templateId: string,
+    form: HTMLFormElement,
+    publicKey: string
+  ) => Promise<{ text: string }>
+}
+
+interface WindowWithEmailJS extends Window {
+  emailjs: EmailJS
+}
+
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -34,15 +48,128 @@ export default function ContactForm() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    console.log(values)
-    setIsSubmitting(false)
-    setIsSuccess(true)
-    setTimeout(() => setIsSuccess(false), 3000)
-    form.reset()
+  // Load EmailJS script
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js'
+    script.async = true
+    script.onload = () => {
+      // Initialize EmailJS
+      if (typeof window !== 'undefined' && 'emailjs' in window) {
+        const emailjs = (window as unknown as WindowWithEmailJS).emailjs
+        emailjs.init('1fAMcinuo0y3KESTj')
+      }
+    }
+    document.head.appendChild(script)
+
+    return () => {
+      document.head.removeChild(script)
+    }
+  }, [])
+
+  // Form validation function
+  const FormValidation = (e: React.FormEvent<HTMLFormElement>): boolean => {
+    const formData = new FormData(e.currentTarget)
+    const name = formData.get('name') as string
+    const email = formData.get('email') as string
+    const phone = formData.get('phone') as string
+    const message = formData.get('message') as string
+
+    // Check if all fields are filled
+    if (!name || !email || !phone || !message) {
+      toast.error("Please fill in all fields", {
+        description: "All fields are required to send your message.",
+        duration: 4000,
+      })
+      return false
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      toast.error("Invalid email address", {
+        description: "Please enter a valid email address.",
+        duration: 4000,
+      })
+      return false
+    }
+
+    // Validate phone number (10 digits)
+    const phoneRegex = /^[0-9]{10}$/
+    if (!phoneRegex.test(phone)) {
+      toast.error("Invalid phone number", {
+        description: "Please enter a valid 10-digit phone number.",
+        duration: 4000,
+      })
+      return false
+    }
+
+    // Validate name length
+    if (name.length < 2) {
+      toast.error("Name too short", {
+        description: "Name must be at least 2 characters long.",
+        duration: 4000,
+      })
+      return false
+    }
+
+    // Validate message length
+    if (message.length < 10) {
+      toast.error("Message too short", {
+        description: "Message must be at least 10 characters long.",
+        duration: 4000,
+      })
+      return false
+    }
+
+    return true
+  }
+
+  // Send email function
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault()
+    const isValid = FormValidation(e)
+    if (isValid) {
+      setIsSubmitting(true)
+      
+      // Show loading toast
+      const loadingToast = toast.loading("Sending your message...", {
+        description: "Please wait while we send your message.",
+      })
+
+      if (typeof window !== 'undefined' && 'emailjs' in window) {
+        const emailjs = (window as unknown as WindowWithEmailJS).emailjs
+        emailjs.sendForm('service_idn18qd', 'template_07slc0v', e.currentTarget, '1fAMcinuo0y3KESTj')
+          .then(() => {
+            // Dismiss loading toast and show success
+            toast.dismiss(loadingToast)
+            toast.success("Message sent successfully!", {
+              description: "Thank you for contacting us. We'll get back to you soon.",
+              duration: 5000,
+            })
+            setIsSubmitting(false)
+            setIsSuccess(true)
+            form.reset()
+            setTimeout(() => setIsSuccess(false), 3000)
+          }, (error: { text: string }) => {
+            // Dismiss loading toast and show error
+            toast.dismiss(loadingToast)
+            toast.error("Failed to send message", {
+              description: `Error: ${error.text}. Please try again later.`,
+              duration: 5000,
+            })
+            setIsSubmitting(false)
+          })
+      } else {
+        // Dismiss loading toast and show error
+        toast.dismiss(loadingToast)
+        toast.error("Email service not available", {
+          description: "EmailJS not loaded. Please refresh the page and try again.",
+          duration: 5000,
+        })
+        setIsSubmitting(false)
+      }
+    }
   }
 
   const itemVariants = {
@@ -84,119 +211,95 @@ export default function ContactForm() {
       </div>
 
       <div className="p-6">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
+        <form onSubmit={sendEmail} className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div variants={itemVariants}>
+              <div>
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block">
+                  {t("contactFormNameLabel") as string}
+                </label>
+                <input
+                  type="text"
                   name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("contactFormNameLabel") as string}</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={t("contactFormNamePlaceholder") as string}
-                          className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder={t("contactFormNamePlaceholder") as string}
+                  className="flex h-12 w-full rounded-lg border border-input bg-muted/30 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
                 />
-              </motion.div>
+              </div>
+            </motion.div>
 
-              <motion.div variants={itemVariants}>
-                <FormField
-                  control={form.control}
+            <motion.div variants={itemVariants}>
+              <div>
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block">
+                  {t("contactFormEmailLabel") as string}
+                </label>
+                <input
+                  type="email"
                   name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("contactFormEmailLabel") as string}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder={t("contactFormEmailPlaceholder") as string}
-                          className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  placeholder={t("contactFormEmailPlaceholder") as string}
+                  className="flex h-12 w-full rounded-lg border border-input bg-muted/30 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  required
                 />
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
+          </div>
 
-            <motion.div variants={itemVariants}>
-              <FormField
-                control={form.control}
+          <motion.div variants={itemVariants}>
+            <div>
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block">
+                {t("contactFormPhoneLabel") as string}
+              </label>
+              <input
+                type="tel"
                 name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("contactFormPhoneLabel") as string}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={t("contactFormPhonePlaceholder") as string}
-                        className="bg-muted/30 border-muted focus:border-primary h-12 rounded-lg"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                placeholder={t("contactFormPhonePlaceholder") as string}
+                className="flex h-12 w-full rounded-lg border border-input bg-muted/30 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                required
               />
-            </motion.div>
+            </div>
+          </motion.div>
 
-            <motion.div variants={itemVariants}>
-              <FormField
-                control={form.control}
+          <motion.div variants={itemVariants}>
+            <div>
+              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2 block">
+                {t("contactFormMessageLabel") as string}
+              </label>
+              <textarea
                 name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("contactFormMessageLabel") as string}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder={t("contactFormMessagePlaceholder") as string}
-                        className="bg-muted/30 border-muted focus:border-primary rounded-lg min-h-32 resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                placeholder={t("contactFormMessagePlaceholder") as string}
+                className="flex min-h-32 w-full rounded-lg border border-input bg-muted/30 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 resize-none"
+                required
               />
-            </motion.div>
+            </div>
+          </motion.div>
 
-            <motion.div variants={itemVariants} className="flex justify-center md:justify-start">
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg flex items-center gap-2 cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="h-4 w-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
-                    {t("contactFormSending") as string}
-                  </>
-                ) : isSuccess ? (
-                  <>
-                    <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    {t("contactFormSent") as string}
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    {t("contactFormSendMessage") as string}
-                  </>
-                )}
-              </Button>
-            </motion.div>
-          </form>
-        </Form>
+          <motion.div variants={itemVariants} className="flex justify-center md:justify-start">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg flex items-center gap-2 cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="h-4 w-4 border-2 border-t-transparent border-white rounded-full animate-spin" />
+                  {t("contactFormSending") as string}
+                </>
+              ) : isSuccess ? (
+                <>
+                  <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {t("contactFormSent") as string}
+                </>
+              ) : (
+                <>
+                  <Send className="h-4 w-4" />
+                  {t("contactFormSendMessage") as string}
+                </>
+              )}
+            </Button>
+          </motion.div>
+        </form>
       </div>
     </motion.div>
   )

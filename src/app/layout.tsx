@@ -6,6 +6,7 @@ import Footer from "@/components/footer"
 import SocialSidebar from "@/components/social-sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/contexts/language-context"
+import { Toaster } from "sonner"
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -65,6 +66,14 @@ export default function RootLayout({
             {children}
             <Footer />
             <SocialSidebar />
+            <Toaster 
+              position="bottom-center"
+              richColors
+              closeButton
+              duration={5000}
+              expand={true}
+              theme="light"
+            />
           </LanguageProvider>
         </ThemeProvider>
       </body>

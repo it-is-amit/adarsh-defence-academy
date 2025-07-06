@@ -50,14 +50,14 @@ export default function ImageGallery() {
   const { t } = useLanguage()
 
   return (
-    <section className="py-16 bg-background container mx-auto">
-      <div className="container px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("galleryTitle")}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("gallerySubtitle")}</p>
+    <section className="py-12 sm:py-16 bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">{t("galleryTitle")}</h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">{t("gallerySubtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {galleryImages.map((image, index) => (
             <div
               key={index}

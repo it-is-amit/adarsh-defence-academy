@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link"
-import { Phone, MapPin, Mail, Facebook, Instagram, Twitter, Youtube } from "lucide-react"
+import { Phone, MapPin, Mail } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
-import Image from "next/image";
+import Image from "next/image"
+import { socialLinks } from "./social-sidebar"
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -29,35 +30,23 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Image src="/assets/logo.png" alt="Logo" width={32} height={48} />
+              <Image src="/assets/defence.png" alt="Logo" width={50} height={50} />
             </div>
             <h3 className="font-bold text-white">{t("footerAcademyName")}</h3>
-            <p className="text-sm text-slate-300 leading-relaxed">{t("footerDescription")}</p>
+            {/* <p className="text-sm text-slate-300 leading-relaxed">{t("footerDescription")}</p> */}
 
             <div className="flex space-x-3 pt-4">
-              <Link
-                href="#"
-                className="h-8 w-8 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"
-              >
-                <Facebook className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                className="h-8 w-8 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"
-              >
-                <Instagram className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                className="h-8 w-8 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"
-              >
-                <Twitter className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                className="h-8 w-8 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"
-              >
-                <Youtube className="h-4 w-4" />
-              </Link>
+              {socialLinks.map((social, index) => (
+                <Link
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-8 w-8 bg-slate-800 hover:bg-primary rounded-full flex items-center justify-center transition-colors"
+                >
+                  <social.icon className="h-4 w-4" />
+                </Link>
+              ))}
             </div>
           </div>
 

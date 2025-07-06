@@ -87,8 +87,8 @@ export default function AchievementsPage() {
   return (
     <main className="min-h-screen">
       {/* Breadcrumb */}
-      <div className="bg-muted/30 py-4 container mx-auto">
-        <div className="container px-4">
+      <div className="bg-muted/30 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-sm text-muted-foreground">
             {t("breadcrumbHome")} {">"} {t("breadcrumbAchievement")}
           </p>
@@ -96,35 +96,35 @@ export default function AchievementsPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-b from-amber-50 to-background dark:from-amber-950/20 dark:to-background">
-        <div className="container mx-auto">
-          <div className="text-center my-16 relative">
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-amber-50 to-background dark:from-amber-950/20 dark:to-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center my-12 sm:my-16 relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-              <Trophy className="h-48 w-48 text-amber-500" />
+              <Trophy className="h-32 sm:h-48 w-32 sm:w-48 text-amber-500" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
               {t("heroTitle")}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("heroSubtitle")}</p>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">{t("heroSubtitle")}</p>
           </div>
         </div>
       </section>
 
       {/* Success Stories of Alumni */}
-      <section className="py-16 bg-muted/20 container mx-auto">
-        <div className="container px-4">
-          <div className="text-center mb-12 relative">
+      <section className="py-12 sm:py-16 bg-muted/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-              <Star className="h-32 w-32 text-amber-500" />
+              <Star className="h-24 sm:h-32 w-24 sm:w-32 text-amber-500" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
-              <Trophy className="h-8 w-8 text-amber-500" />
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 inline-flex items-center gap-2 sm:gap-3">
+              <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-amber-500" />
               {t("successStoriesTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("successStoriesSubtitle")}</p>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">{t("successStoriesSubtitle")}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {alumniData.map((alumnus, index) => (
               <motion.div
                 key={index}
@@ -134,9 +134,9 @@ export default function AchievementsPage() {
                 viewport={{ once: true }}
                 className="bg-background rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group"
               >
-                <div className="relative h-48">
-                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 rounded-bl-lg z-10">
-                    <Star className="h-4 w-4" />
+                <div className="relative h-40 sm:h-48">
+                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-2 sm:px-3 py-1 rounded-bl-lg z-10">
+                    <Star className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <Image
                     src={alumnus.photo || "/placeholder.svg?height=200&width=200"}
@@ -146,10 +146,10 @@ export default function AchievementsPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
-                <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-lg">{alumnus.name}</h3>
-                  <p className="text-amber-600 dark:text-amber-400 font-medium">{alumnus.achievement}</p>
-                  <div className="bg-muted/50 p-3 rounded-lg">
+                <div className="p-4 sm:p-6 space-y-2 sm:space-y-3">
+                  <h3 className="font-bold text-base sm:text-lg">{alumnus.name}</h3>
+                  <p className="text-amber-600 dark:text-amber-400 font-medium text-sm sm:text-base">{alumnus.achievement}</p>
+                  <div className="bg-muted/50 p-2 sm:p-3 rounded-lg">
                     <p className="text-xs text-muted-foreground">{alumnus.brief}</p>
                   </div>
                 </div>
@@ -160,20 +160,20 @@ export default function AchievementsPage() {
       </section>
 
       {/* Awards and Recognition */}
-      <section className="py-16 bg-background container mx-auto">
-        <div className="container px-4">
-          <div className="text-center mb-12 relative">
+      <section className="py-12 sm:py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-              <Award className="h-32 w-32 text-amber-500" />
+              <Award className="h-24 sm:h-32 w-24 sm:w-32 text-amber-500" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
-              <Award className="h-8 w-8 text-amber-500" />
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 inline-flex items-center gap-2 sm:gap-3">
+              <Award className="h-6 w-6 sm:h-8 sm:w-8 text-amber-500" />
               {t("awardsTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("awardsSubtitle")}</p>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">{t("awardsSubtitle")}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {awardsData.map((award, index) => (
               <motion.div
                 key={index}
@@ -181,11 +181,11 @@ export default function AchievementsPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-950/20 dark:to-amber-900/10 rounded-xl p-6 text-center space-y-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-amber-200/50 dark:border-amber-800/20"
+                className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-950/20 dark:to-amber-900/10 rounded-xl p-4 sm:p-6 text-center space-y-3 sm:space-y-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-amber-200/50 dark:border-amber-800/20"
               >
-                <div className="relative h-32 mx-auto">
+                <div className="relative h-24 sm:h-32 mx-auto">
                   <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                    <Award className="h-24 w-24 text-amber-500" />
+                    <Award className="h-16 w-16 sm:h-24 sm:w-24 text-amber-500" />
                   </div>
                   <Image
                     src={award.image || "/placeholder.svg?height=150&width=150"}
@@ -194,9 +194,9 @@ export default function AchievementsPage() {
                     className="object-contain"
                   />
                 </div>
-                <h3 className="font-bold text-amber-800 dark:text-amber-300">{award.title}</h3>
-                <div className="bg-white/50 dark:bg-black/20 p-3 rounded-lg">
-                  <p className="text-sm text-muted-foreground">{award.description}</p>
+                <h3 className="font-bold text-amber-800 dark:text-amber-300 text-sm sm:text-base">{award.title}</h3>
+                <div className="bg-white/50 dark:bg-black/20 p-2 sm:p-3 rounded-lg">
+                  <p className="text-xs sm:text-sm text-muted-foreground">{award.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -205,20 +205,20 @@ export default function AchievementsPage() {
       </section>
 
       {/* Notable Achievements */}
-      <section className="py-16 bg-gradient-to-b from-muted/20 to-amber-50/30 dark:from-muted/20 dark:to-amber-950/10">
-        <div className="container mx-auto">
-          <div className="text-center mb-12 relative">
+      <section className="py-12 sm:py-16 bg-gradient-to-b from-muted/20 to-amber-50/30 dark:from-muted/20 dark:to-amber-950/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-              <Medal className="h-32 w-32 text-amber-500" />
+              <Medal className="h-24 sm:h-32 w-24 sm:w-32 text-amber-500" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 inline-flex items-center gap-3">
-              <Medal className="h-8 w-8 text-amber-500" />
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 inline-flex items-center gap-2 sm:gap-3">
+              <Medal className="h-6 w-6 sm:h-8 sm:w-8 text-amber-500" />
               {t("notableAchievementsTitle")}
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("notableAchievementsSubtitle")}</p>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">{t("notableAchievementsSubtitle")}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {notableAchievementsData.map((achievement, index) => (
               <motion.div
                 key={index}
@@ -228,9 +228,9 @@ export default function AchievementsPage() {
                 viewport={{ once: true }}
                 className="bg-background rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-2 group border border-amber-200/50 dark:border-amber-800/20"
               >
-                <div className="relative h-48">
-                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-3 py-1 rounded-bl-lg z-10 flex items-center gap-1">
-                    <Star className="h-3 w-3" />
+                <div className="relative h-40 sm:h-48">
+                  <div className="absolute top-0 right-0 bg-amber-500 text-white px-2 sm:px-3 py-1 rounded-bl-lg z-10 flex items-center gap-1">
+                    <Star className="h-2 w-2 sm:h-3 sm:w-3" />
                     <span className="text-xs font-medium">Achievement</span>
                   </div>
                   <Image
@@ -241,10 +241,10 @@ export default function AchievementsPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
-                <div className="p-6 space-y-3">
-                  <h3 className="font-bold text-lg text-amber-800 dark:text-amber-300">{achievement.title}</h3>
-                  <div className="bg-amber-50 dark:bg-amber-950/30 p-3 rounded-lg border border-amber-100 dark:border-amber-800/30">
-                    <p className="text-sm text-muted-foreground">{achievement.brief}</p>
+                <div className="p-4 sm:p-6 space-y-2 sm:space-y-3">
+                  <h3 className="font-bold text-base sm:text-lg text-amber-800 dark:text-amber-300">{achievement.title}</h3>
+                  <div className="bg-amber-50 dark:bg-amber-950/30 p-2 sm:p-3 rounded-lg border border-amber-100 dark:border-amber-800/30">
+                    <p className="text-xs sm:text-sm text-muted-foreground">{achievement.brief}</p>
                   </div>
                 </div>
               </motion.div>

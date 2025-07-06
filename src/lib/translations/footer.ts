@@ -21,9 +21,9 @@ export const footerTranslations = {
     footerAcademicSupport: "Academic Support",
     
     // Contact Information
-    footerAddress: "XYZ, xyzz, 900001",
-    footerPhone: "+91 8**********",
-    footerEmail: "abc@adarshedu.com",
+    footerAddress: "Lalsagar, Jodhpur, Rajasthan",
+    footerPhone: "+91-6376784539",
+    footerEmail: "adsajodhpur@gmail.com",
     
     // Copyright
     footerCopyright: "All rights reserved.",
