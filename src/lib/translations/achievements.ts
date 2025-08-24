@@ -86,6 +86,10 @@ export const achievementsTranslations = {
 
     notableDefenceExcellenceTitle: "Defence Excellence Award",
     notableDefenceExcellenceBrief: "Academy received recognition for outstanding contribution to defence training",
+
+    // Student Achievements Section
+    studentAchievementsTitle: "Student Achievements",
+    studentAchievementsSubtitle: "Celebrating our students' success in awards, medals, and certifications",
   },
   hi: {
     // Breadcrumb
@@ -174,5 +178,9 @@ export const achievementsTranslations = {
 
     notableDefenceExcellenceTitle: "रक्षा उत्कृष्टता पुरस्कार",
     notableDefenceExcellenceBrief: "रक्षा प्रशिक्षण में उत्कृष्ट योगदान के लिए अकादमी को मान्यता मिली",
+
+    // Student Achievements Section
+    studentAchievementsTitle: "छात्र उपलब्धियां",
+    studentAchievementsSubtitle: "हमारे छात्रों की उपलब्धियों का जश्न जो पुरस्कार, पदक और प्रमाणपत्र में सफलता को जोड़ता है",
   },
 } as const

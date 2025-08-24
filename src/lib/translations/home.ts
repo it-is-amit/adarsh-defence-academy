@@ -50,6 +50,11 @@ export const homeTranslations = {
     // Home Contact Section
     getInTouch: "Get in Touch",
     getInTouchDesc: "Have questions about our programs? Reach out to us and our team will get back to you shortly.",
+
+    // Notices Section
+    noticesTitle: "Important Announcements",
+    noticesSubtitle:
+      "Stay updated with admissions, exams, results, and campus announcements.",
   },
   hi: {
     // Hero Section
@@ -101,5 +106,10 @@ export const homeTranslations = {
     // Home Contact Section
     getInTouch: "संपर्क में रहें",
     getInTouchDesc: "हमारे कार्यक्रमों के बारे में प्रश्न हैं? हमसे संपर्क करें और हमारी टीम जल्द ही आपसे संपर्क करेगी।",
+
+    // Notices Section
+    noticesTitle: "महत्वपूर्ण घोषणाएँ",
+    noticesSubtitle:
+      "प्रवेश, परीक्षाओं, परिणामों और कैंपस घोषणाओं की नवीनतम जानकारी प्राप्त करें।",
   },
 } as const

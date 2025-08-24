@@ -9,6 +9,7 @@ import { Send } from "lucide-react"
 import { motion } from "framer-motion"
 import { useLanguage } from "@/contexts/language-context"
 import { toast } from "sonner"
+import { createEnquiry } from "@/lib/firebase/enquiries"
 
 // EmailJS types
 interface EmailJS {
@@ -125,50 +126,95 @@ export default function ContactForm() {
     return true
   }
 
-  // Send email function
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    const isValid = FormValidation(e)
-    if (isValid) {
-      setIsSubmitting(true)
-      
-      // Show loading toast
-      const loadingToast = toast.loading("Sending your message...", {
-        description: "Please wait while we send your message.",
-      })
+  // Helpers
+  const sendWithEmailJS = (formEl: HTMLFormElement) => {
+    const emailjs = (window as unknown as WindowWithEmailJS).emailjs
+    return emailjs.sendForm('service_idn18qd', 'template_07slc0v', formEl, '1fAMcinuo0y3KESTj')
+  }
 
-      if (typeof window !== 'undefined' && 'emailjs' in window) {
-        const emailjs = (window as unknown as WindowWithEmailJS).emailjs
-        emailjs.sendForm('service_idn18qd', 'template_07slc0v', e.currentTarget, '1fAMcinuo0y3KESTj')
-          .then(() => {
-            // Dismiss loading toast and show success
-            toast.dismiss(loadingToast)
-            toast.success("Message sent successfully!", {
-              description: "Thank you for contacting us. We'll get back to you soon.",
-              duration: 5000,
-            })
-            setIsSubmitting(false)
-            setIsSuccess(true)
-            form.reset()
-            setTimeout(() => setIsSuccess(false), 3000)
-          }, (error: { text: string }) => {
-            // Dismiss loading toast and show error
-            toast.dismiss(loadingToast)
-            toast.error("Failed to send message", {
-              description: `Error: ${error.text}. Please try again later.`,
-              duration: 5000,
-            })
-            setIsSubmitting(false)
-          })
-      } else {
-        // Dismiss loading toast and show error
+  const saveEnquiryToFirestore = (payload: { name: string; email: string; phone: string; message: string }) => {
+    return createEnquiry(payload)
+  }
+
+  // Send email function
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault()
+    const formEl = e.currentTarget as HTMLFormElement
+    const isValid = FormValidation(e)
+    if (!isValid) return
+
+    setIsSubmitting(true)
+
+    const loadingToast = toast.loading("Sending your message...", {
+      description: "Please wait while we send your message.",
+    })
+
+    const formData = new FormData(formEl)
+    const payload = {
+      name: String(formData.get('name') || ''),
+      email: String(formData.get('email') || ''),
+      phone: String(formData.get('phone') || ''),
+      message: String(formData.get('message') || ''),
+      timestamp: new Date().toISOString(), // Add timestamp for IST
+    }
+
+    try {
+      const hasEmailJs = typeof window !== 'undefined' && 'emailjs' in window
+      if (hasEmailJs) {
+        const [emailResult, dbResult] = await Promise.allSettled([
+          sendWithEmailJS(formEl),
+          saveEnquiryToFirestore(payload),
+        ])
+
         toast.dismiss(loadingToast)
-        toast.error("Email service not available", {
-          description: "EmailJS not loaded. Please refresh the page and try again.",
+
+        if (emailResult.status === 'fulfilled' && dbResult.status === 'fulfilled') {
+          toast.success("Message sent successfully!", {
+            description: "We received your enquiry and emailed it. We'll get back to you soon.",
+            duration: 5000,
+          })
+          setIsSuccess(true)
+          form.reset()
+          formEl.reset()
+          setTimeout(() => setIsSuccess(false), 3000)
+        } else if (emailResult.status === 'fulfilled' && dbResult.status === 'rejected') {
+          toast.error("Saved to email, but failed to store enquiry", {
+            description: "We sent your message via email, but saving to the system failed.",
+            duration: 6000,
+          })
+        } else if (emailResult.status === 'rejected' && dbResult.status === 'fulfilled') {
+          toast.success("Enquiry saved. Email failed.", {
+            description: "We saved your message, but email sending failed.",
+            duration: 6000,
+          })
+          form.reset()
+          formEl.reset()
+        } else {
+          toast.error("Failed to submit enquiry", {
+            description: "Both email and saving failed. Please try again.",
+            duration: 6000,
+          })
+        }
+      } else {
+        await saveEnquiryToFirestore(payload)
+        toast.dismiss(loadingToast)
+        toast.success("Enquiry saved", {
+          description: "Email service unavailable. We still saved your message.",
           duration: 5000,
         })
-        setIsSubmitting(false)
+        setIsSuccess(true)
+        form.reset()
+        formEl.reset()
+        setTimeout(() => setIsSuccess(false), 3000)
       }
+    } catch (err: unknown) {
+      toast.dismiss(loadingToast)
+      toast.error("Failed to submit enquiry", {
+        description: (err as { message?: string })?.message ?? "Please try again later.",
+        duration: 6000,
+      })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 

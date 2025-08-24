@@ -1,9 +1,7 @@
 import type React from "react"
 import { Poppins } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import SocialSidebar from "@/components/social-sidebar"
+import AppShell from "@/components/app-shell"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/contexts/language-context"
 import { Toaster } from "sonner"
@@ -62,10 +60,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <LanguageProvider>
-            <Navbar />
-            {children}
-            <Footer />
-            <SocialSidebar />
+            <AppShell>{children}</AppShell>
             <Toaster 
               position="bottom-center"
               richColors

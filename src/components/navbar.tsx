@@ -18,6 +18,7 @@ import ThemeToggle from "@/components/theme-toggle"
 import LanguageToggle from "@/components/language-toggle"
 import { useLanguage } from "@/contexts/language-context"
 import Image from "next/image"
+import AuthMenu from "@/components/auth-menu"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -87,12 +88,14 @@ export default function Navbar() {
             </NavigationMenu>
             <LanguageToggle />
             <ThemeToggle />
+            <AuthMenu />
           </div>
 
           {/* Mobile Navigation */}
           <div className="flex items-center space-x-2 lg:hidden">
             <LanguageToggle />
             <ThemeToggle />
+            <AuthMenu compact />
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
                 <Button variant="ghost" size="icon">

@@ -70,15 +70,15 @@ export default function ContactPage() {
             {/* Map Section */}
             <div className="bg-card border border-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl flex flex-col">
               <div className="relative h-48 sm:h-64 w-full">
-                {/* Dummy Map (Google Maps iframe or static image) */}
                 <iframe
-                  title="Academy Location"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=73.0033%2C26.2389%2C73.0533%2C26.2889&amp;layer=mapnik"
-                  className="absolute inset-0 w-full h-full border-0 rounded-t-2xl sm:rounded-t-3xl"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3630.6115631182956!2d75.8236348754358!3d26.80623027671077!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396dcb718ebf6ee3%3A0x980c7c78d6c6b7f7!2sAdarsh%20Coaching%20%26%20Defence%20Academy!5e1!3m2!1sen!2sin!4v1755754087340!5m2!1sen!2sin"
+                  width="600"
+                  height="450"
                   loading="lazy"
-                  style={{ filter: "grayscale(0.2) contrast(1.1)" }}
+                  className="absolute inset-0 w-full h-full"
                   allowFullScreen
-                />
+                  >
+                </iframe>
                 <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-primary/90 text-primary-foreground px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-lg flex items-center gap-2">
                   <MapPin className="h-4 w-4 sm:h-5 sm:w-5" />
                   <span className="font-semibold text-xs sm:text-sm">{t("mapTitle")}</span>

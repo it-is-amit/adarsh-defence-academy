@@ -1,49 +1,75 @@
 "use client"
 
-import { Bell } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Bell, Pin } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { listNotices, type Notice } from "@/lib/firebase/notices"
 
-const notices = [
-	{ title: "Admissions Open for 2024-25", date: "2024-07-01" },
-	{ title: "Exam Schedule Released", date: "2024-07-10" },
-	{ title: "Results Announced", date: "2024-07-15" },
-	{ title: "Independence Day Celebration", date: "2024-08-15" },
-	{ title: "Campus Closed on 20th July", date: "2024-07-20" },
-	{ title: "New Sports Facilities Inauguration", date: "2024-08-05" },
-	{ title: "Scholarship Applications Open", date: "2024-08-07" },
-	{ title: "Parent-Teacher Meeting Schedule", date: "2024-08-12" },
-	{ title: "NDA Preparation Bootcamp Dates", date: "2024-08-18" },
-	{ title: "Library Timings Updated", date: "2024-08-22" },
-]
+function formatDate(dateStr: string) {
+	const d = new Date(dateStr)
+	return d.toLocaleDateString(undefined, {
+		year: "numeric",
+		month: "short",
+		day: "2-digit",
+	})
+}
+
+function isRecent(dateStr: string) {
+	try {
+		const created = new Date(dateStr).getTime()
+		const now = Date.now()
+		const sevenDaysMs = 7 * 24 * 60 * 60 * 1000
+		return now - created <= sevenDaysMs
+	} catch {
+		return false
+	}
+}
 
 export default function NoticeSection() {
 	const { t } = useLanguage()
+	const [notices, setNotices] = useState<Notice[]>([])
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
+
+	useEffect(() => {
+		let mounted = true
+			; (async () => {
+				try {
+					const data = await listNotices()
+					if (!mounted) return
+					const pinned = data.filter((n) => n.pinned)
+					const others = data.filter((n) => !n.pinned)
+					setNotices([...pinned, ...others])
+				} catch (err) {
+					console.error(err)
+					if (mounted) setError("Failed to load notices. Check Firebase config.")
+				} finally {
+					if (mounted) setLoading(false)
+				}
+			})()
+		return () => {
+			mounted = false
+		}
+	}, [])
 
 	return (
 		<section className="py-12 sm:py-16 bg-muted/30">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="text-center mb-8 sm:mb-12">
-					<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-primary flex items-center justify-center gap-2">
-						<Bell className="h-7 w-7 text-primary" />
-						{t ? t("noticesTitle") : "Notifications & Notices"}
-					</h2>
-					<p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-						{t ? t("noticesSubtitle") : "Stay updated with the latest admissions, exams, results, and announcements."}
-					</p>
-				</div>
-
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
 					{/* Left Banner */}
 					<div className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-xl sm:rounded-2xl shadow-lg overflow-hidden relative p-6 sm:p-8 flex flex-col justify-center">
-						<div
-							className="absolute inset-0 opacity-20 pointer-events-none"
-							style={{
-								background:
-									"radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.35), transparent 40%)",
-							}}
-						/>
-						<div className="relative z-10 flex items-start gap-4">
-							<div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-md">
+						<div className="absolute inset-0 opacity-20 pointer-events-none notice-overlay-gradient" />
+						<div className="relative z-10 flex flex-col items-start gap-4">
+							<div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-primary-foreground/20 backdrop-blur-md flex items-center justify-center shadow-md">
 								<Bell className="h-8 w-8" />
 							</div>
 							<div>
@@ -56,26 +82,73 @@ export default function NoticeSection() {
 							</div>
 						</div>
 						<div className="relative z-10 mt-6 sm:mt-8 grid grid-cols-3 gap-3 text-xs sm:text-sm opacity-90">
-							<div className="bg-white/15 rounded-lg px-3 py-2 text-center">Admissions</div>
-							<div className="bg-white/15 rounded-lg px-3 py-2 text-center">Exams</div>
-							<div className="bg-white/15 rounded-lg px-3 py-2 text-center">Results</div>
+							<div className="rounded-lg px-3 py-2 text-center bg-primary-foreground/15">Admissions</div>
+							<div className="rounded-lg px-3 py-2 text-center bg-primary-foreground/15">Exams</div>
+							<div className="rounded-lg px-3 py-2 text-center bg-primary-foreground/15">Results</div>
 						</div>
 					</div>
 
 					{/* Right Scrollable List */}
 					<div className="lg:col-span-2 bg-card border border-border rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
-						<div className="px-4 py-3 border-b border-border bg-muted/40 flex items-center gap-2">
-							<Bell className="h-5 w-5 text-primary" />
-							<span className="font-semibold text-sm">Latest Notices</span>
+						<div className="px-4 py-3 border-b border-border bg-muted/40 flex items-center justify-between gap-2">
+							<div className="flex items-center gap-2 min-w-0">
+								<Bell className="h-5 w-5 text-primary shrink-0" />
+								<span className="font-semibold text-sm truncate">{t ? t("noticesTitle") : "Latest Notices"}</span>
+							</div>
 						</div>
 						<div className="max-h-[420px] overflow-y-auto custom-scrollbar">
-							<ul className="divide-y divide-border">
-								{notices.map((item, idx) => (
-									<li key={idx} className="px-4 py-3">
-										<p className="text-sm text-foreground truncate" title={item.title}>{item.title}</p>
-									</li>
-								))}
-							</ul>
+							{loading && (
+								<div className="px-4 py-3 text-sm text-muted-foreground">Loading notices...</div>
+							)}
+							{error && (
+								<div className="px-4 py-3 text-sm text-destructive">{error}</div>
+							)}
+							{!loading && !error && (
+								<ul className="divide-y divide-border">
+									{notices.map((item) => (
+										<li key={item.id} className="px-4 py-3 hover:bg-muted/30 transition-colors">
+											<Dialog>
+												<DialogTrigger asChild>
+													<div className="w-full text-left">
+														<div className="flex items-start gap-3">
+															<div className="min-w-0 flex-1">
+																<p className="text-sm text-foreground line-clamp-2 capitalize" title={item.title}>
+																	{item.title}
+																	{isRecent(item.createdAt) ? (
+																		<span className="inline-flex items-center gap-1 ml-2 text-white dark:text-red-400">
+																			<span className="inline-flex items-center rounded-full bg-red-500 px-1 py-0.5 text-[10px]">New</span>
+																		</span>
+																	) : null}
+																</p>
+																<p className="text-xs text-muted-foreground mt-1">{formatDate(item.createdAt)}</p>
+															</div>
+															<div className="flex items-center gap-2">
+																{item.pinned ? (
+																	<span className="flex items-center">
+																		<Pin size={16} className="rotate-45 text-muted-foreground"/>
+																	</span>
+																) : null}
+																<Button size="sm" variant="secondary">Read more</Button>
+															</div>
+														</div>
+													</div>
+												</DialogTrigger>
+												<DialogContent className="max-h-[80vh] overflow-y-auto">
+													<DialogHeader>
+														<DialogTitle className="text-xl leading-7">{item.title}</DialogTitle>
+														<DialogDescription>
+															<span className="inline-flex items-center gap-2">
+																<span className="inline-flex items-center rounded-full border bg-muted px-2 py-0.5 text-xs text-muted-foreground">{formatDate(item.createdAt)}</span>
+															</span>
+														</DialogDescription>
+													</DialogHeader>
+													<div className="mt-2 text-sm leading-7 prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: item.description }} />
+												</DialogContent>
+											</Dialog>
+										</li>
+									))}
+								</ul>
+							)}
 						</div>
 					</div>
 				</div>
