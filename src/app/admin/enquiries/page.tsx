@@ -157,8 +157,7 @@ export default function AdminEnquiriesPage() {
   }
 
   const handleReply = (enquiry: Enquiry) => {
-    // TODO: Implement reply functionality
-    console.log('Reply to enquiry:', enquiry)
+    window.open(`mailto:${enquiry.email}?subject=Re: Enquiry from ${enquiry.name}`, '_blank')
   }
 
   const handleExcelExportClick = () => {
@@ -212,22 +211,29 @@ export default function AdminEnquiriesPage() {
               />
             </div>
 
-            <EnhancedEnquiryTable
-              enquiries={enquiries}
-              onMarkAsRead={handleMarkAsRead}
-              onDelete={handleDelete}
-              onViewEnquiry={handleViewEnquiry}
-              onReply={handleReply}
-              formatIst={formatIst}
-              filters={filters}
-            />
+            {/* Show table only on larger screens */}
+            <div className="hidden md:block mb-6">
+              <EnhancedEnquiryTable
+                enquiries={enquiries}
+                onMarkAsRead={handleMarkAsRead}
+                onDelete={handleDelete}
+                onViewEnquiry={handleViewEnquiry}
+                onReply={handleReply}
+                formatIst={formatIst}
+                filters={filters}
+              />
+            </div>
 
-            <EnquiryMobileCards
-              enquiries={enquiries}
-              onMarkAsRead={handleMarkAsRead}
-              onDelete={handleDelete}
-              formatIst={formatIst}
-            />
+            {/* Show mobile cards only on smaller screens */}
+            <div className="md:hidden mb-6">
+              <EnquiryMobileCards
+                enquiries={enquiries}
+                onMarkAsRead={handleMarkAsRead}
+                onDelete={handleDelete}
+                formatIst={formatIst}
+              />
+            </div>
+
           </>
         )}
 

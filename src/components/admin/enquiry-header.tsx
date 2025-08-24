@@ -19,8 +19,8 @@ export function EnquiryHeader({
   onRequestNotificationPermission 
 }: EnquiryHeaderProps) {
   return (
-    <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-      <div className="flex items-center gap-3">
+    <div className="mb-4 sm:mb-6 flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-1">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold">{title}</h1>
           <p className="text-sm sm:text-base text-muted-foreground mt-1">
@@ -36,7 +36,7 @@ export function EnquiryHeader({
       </div>
 
       {notificationPermission !== 'granted' && (
-        <Button variant="outline" size="sm" onClick={onRequestNotificationPermission} className="w-full sm:w-auto">
+        <Button variant="outline" size="sm" onClick={onRequestNotificationPermission} className="shrink-0">
           <Bell className="h-4 w-4 mr-2" /> Enable notifications
         </Button>
       )}

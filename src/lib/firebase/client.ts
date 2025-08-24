@@ -25,25 +25,15 @@ function getFirebaseConfigFromEnv(): FirebaseOptions | null {
   }
 }
 
-// Fallback config provided by user (used only if env vars are missing)
-const FALLBACK_CONFIG: FirebaseOptions = {
-  apiKey: "AIzaSyCaNa1GNGKlQ5qJxlnR6MAT2qVZbRjfBU8",
-  authDomain: "adarsh-defence-academy.firebaseapp.com",
-  projectId: "adarsh-defence-academy",
-  storageBucket: "adarsh-defence-academy.firebasestorage.app",
-  messagingSenderId: "993246300332",
-  appId: "1:993246300332:web:531ce057cf41ff37ddb709"
-}
-
 let cachedApp: FirebaseApp | null = null
 let cachedAuth: Auth | null = null
 let cachedDb: Firestore | null = null
 
 export function getFirebaseApp(): FirebaseApp {
   if (cachedApp) return cachedApp
-  const config = getFirebaseConfigFromEnv() ?? FALLBACK_CONFIG
-  if (!getFirebaseConfigFromEnv()) {
-    console.warn("Using fallback Firebase config from source. Consider setting NEXT_PUBLIC_FIREBASE_* env vars.")
+  const config = getFirebaseConfigFromEnv()
+  if (!config) {
+    throw new Error("Firebase configuration not found. Please set NEXT_PUBLIC_FIREBASE_* environment variables.")
   }
   cachedApp = getApps().length ? getApps()[0]! : initializeApp(config)
   return cachedApp
